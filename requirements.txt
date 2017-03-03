@@ -1,0 +1,2 @@
+numpy==1.12.0
+-e git+https://github.com/ParmEd/ParmEd@7b5242cb7f0e9ed0e97837557befbe1a0b759485#egg=ParmEd
