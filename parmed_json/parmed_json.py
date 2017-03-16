@@ -10,7 +10,7 @@ class ParmedEncoder(json.JSONEncoder):
         if hasattr(o, '__getstate__'):
             if(isinstance(o, pmd.Structure)):
                 d = o.__getstate__()
-                d['atoms'] = o.atoms
+                # d['atoms'] = o.atomss
                 return d
             return o.__getstate__()
         elif isinstance(o, np.ndarray):
