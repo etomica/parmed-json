@@ -5,3 +5,4 @@ test.json
 
 *.egg-info
 __pycache__
+venv
