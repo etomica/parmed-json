@@ -25,5 +25,7 @@ def main():
     gmx = pmd.load_file('test.top', xyz='test.gro')
     print(json.dumps(gmx, cls=ParmedEncoder, indent=2))
 
-if __name__ == '__main__':
-    main()
+def parse_gromacs(topfile, grofile):
+    gmx = pmd.load_file(topfile, xyz=grofile)
+    print(json.dumps(gmx, cls=ParmedEncoder))
+
