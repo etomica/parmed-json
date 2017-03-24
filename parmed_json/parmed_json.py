@@ -21,11 +21,10 @@ class ParmedEncoder(json.JSONEncoder):
             return json.JSONEncoder().default(o)
 
 
-def main():
-    gmx = pmd.load_file('test.top', xyz='test.gro')
-    print(json.dumps(gmx, cls=ParmedEncoder, indent=2))
+def parse_file(topology_file, position_file=None):
+    if position_file:
+        struct = pmd.load_file(topology_file, xyz=position_file)
+    else:
+        struct = pmd.load_file(topology_file)
 
-def parse_gromacs(topfile, grofile):
-    gmx = pmd.load_file(topfile, xyz=grofile)
-    print(json.dumps(gmx, cls=ParmedEncoder))
-
+    print(json.dumps(struct, cls=ParmedEncoder))
