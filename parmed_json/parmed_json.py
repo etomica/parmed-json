@@ -2,29 +2,29 @@ import json
 
 import parmed as pmd
 import numpy as np
+from parmed.unit import Quantity
 
 
 class ParmedEncoder(json.JSONEncoder):
 
     def default(self, o):
-        if hasattr(o, '__getstate__'):
-            if(isinstance(o, pmd.Structure)):
-                d = o.__getstate__()
-                # d['atoms'] = o.atomss
-                return d
-            return o.__getstate__()
+        if isinstance(o, Quantity):
+            return str(o)
         elif isinstance(o, np.ndarray):
             return o.tolist()
         elif o.__class__.__module__.startswith('parmed'):
-            return o.__dict__
+            if hasattr(o, '__getstate__'):
+                return o.__getstate__()
+            return vars(o)
         else:
             return json.JSONEncoder().default(o)
 
 
-def parse_file(topology_file, position_file=None):
-    if position_file:
-        struct = pmd.load_file(topology_file, xyz=position_file)
-    else:
-        struct = pmd.load_file(topology_file)
+def parse_file(files):
+    struct = pmd.load_file(files[0], xyz=files[1])
+    print(json.dumps(struct, cls=ParmedEncoder, skipkeys=True))
 
-    print(json.dumps(struct, cls=ParmedEncoder))
+
+def parse_gromacs(topfile, grofile):
+    struct = pmd.load_file(topfile, xyz=grofile)
+    print(json.dumps(struct, cls=ParmedEncoder, skipkeys=True))
